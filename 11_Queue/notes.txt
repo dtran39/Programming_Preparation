@@ -1,0 +1,3 @@
+Implement through linked list: two pointers: head and tail
+  - Add by tail
+  - Remove by head

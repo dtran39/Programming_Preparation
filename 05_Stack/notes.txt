@@ -1,0 +1,26 @@
+Linked list implementation: one head ptr:
+  - Add by head: newNode.next = head; head = newNode: O(1)
+  - Remove by head: head = head.next: O(1)
+  - Can get arbitrarily large as long as there are available memory
+  - However, you have to have extra cost to store a pointer
+Array implementation
+  - We have a maximum size that array can grow
+  - Two ptr: pop/head (the next index to dequeue) and push/tail (the next index to enqueue)
+      + First: initialize two ptr both = 0
+      Treat array as circular
+      + Enqueue: arr[tail] = newVal, tail = (tail + 1) % len(arr)
+      + Full: when arr[tail] != 0 (must check)
+      + Dequeu: arr[head] = SPECIAL_VALUE, head = (head + 1) % len(arr)
+      + Empty: when head == tail
+Stack application:
+  - Parsing in a compiler
+  - JVM
+  - Undo in a word processor
+  - Back button in a web browser
+  - Implementing function call in compiler
+Specific example: arithmetic expression evaluation: (1 + ((2 + 3) * (4 * 5))):
+  Use Dijkstra's two stack algorithms: value/operand stack and operator stack
+  - Ignore left parenthesis
+  - Value: push on value stack
+  - Right parenthesis: pop operator and two values
+    Push result back to value stack

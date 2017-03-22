@@ -1,0 +1,21 @@
+Remember complexity of time is always bigger than space
+	(because we always need at least O(1) to add O(1) space)
+
+How to be confidence
+	+ Be critical in our algorithms
+	+ Test corner cases
+	+ Attempt to formally reason about correctness
+	+ Create automated test cases
+
+2. TDD:
+  - Standard: cycle: write code -> write test -> test
+  - TDD cycle: write test -> write code -> test
+  Conclusion: test early, test often
+3. Testing styles:
+  - Black box: Only test through interface
+      + More representative of user use in code
+      + Easier to test by someone unfamiliar with implementation
+  - White box: test which know about implementation
+      + More knowledgeable about potential corner case which might cause incorrect behavior
+4. What to test:
+  - Testing the methods (called unit testing)

@@ -1,0 +1,4 @@
+Find address of an element in array:
+  + arr_addr + size * (cur_idx - first_idx)
+Find address of multi-dimension array:
+  + arr_addr + element_size * ((row_index - 1) * num_of_col + (col_index - 1))
