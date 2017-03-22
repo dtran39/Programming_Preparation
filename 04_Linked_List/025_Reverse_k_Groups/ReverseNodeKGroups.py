@@ -13,14 +13,43 @@ Examples:
 
 ----------------------------------------------------------------------------------------------------
 Solution:
-- This is the generalize version of swap nodes in pairs
+1. Idea:  This is the generalize version of swap nodes in pairs
     Or a more advanced version of reversed nodes
-1. Initial solution:
-    + One pointer to run first to check if enough nodes to make a reversed
-    + If yes, starts reverse (iteratively with a counter)
-    + Continue
-    - Must use dummy node:
-        + Because the head of the list is changed (use dummy to keep track)
+2. Algorithm:
+    Outside:
+        - Keep a ptr to know the exact location in the list
+            + If that ptr is None -> have travesed through all the list -> return
+        - How to keep track the head, since it is reversed:
+            + Use dummy pointer, and return dummy.next
+        - Also we needs to keep track of the last node
+            of the left segment of current segment
+            + That is initialized as dummy.
+    Inside: Two parts
+    - Part 1: Traverse to check if the current segment is reversible
+        + Meaning if we can traverse k more nodes from the last nodes of its left segment
+        + Use the list ptr nodes, because that is how it traverse the list from end to end
+        + Before traversing, we saved the current position of list ptr
+            Because current list ptr is in the beginning of the segment
+                -> use that position to do reversal if necessary
+        + Anytime that it reaches the end of the list before traversing k nodes:
+            There is nothing else to do -> return dummy.next
+        + If it can traverse k nodes -> can do traversal
+            -> starts reverse segment (nothing else to do)
+    - Part 2: Reverse that segment: 3 steps
+        1. Store the next node: nextPtr = curPtr.next
+        2. Swapping:
+            + curPtr.next = nextPtr.next
+            +   nextPtr.next = leftSegment.next
+            and leftSegment.next = nextPtr
+                (because we keep moving the next node to the beginning of the segment,
+                    which is the next of the left segment)
+        3. Iteration update: numOfReverse += 1
+    - Part 3: Outside iteration update:
+        current segment is now left segment for next iteration
+
+3. Complexity:
+    - Time: O(n)
+    - Space: O(1)
 '''
 # Definition for singly-linked list.
 # class ListNode(object):
@@ -42,32 +71,30 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         """
-        # Dummy
+        # Initialization
         dummy = ListNode(0)
-        dummy.next = head
-        listPtr = head
-        leftSegment = dummy
+        dummy.next, listPtr, leftSegment = head, head, dummy
         # Outer loop: loop until reaches the end
         while listPtr:
-            # If need to reversed, then segments starts from position of listPtr before checking
-            # Count to check if enough
-            counter = k
-            segmentPtr = listPtr
-            while counter > 0:
+            # Check if current segment is reversable
+            numOfNodesTraversed = 0
+            curPtr = listPtr
+            while numOfNodesTraversed < k :
                 if not listPtr: return dummy.next
-                counter -= 1
+                numOfNodesTraversed += 1
                 listPtr = listPtr.next
             # Starts reversing inside the segment
-            # now, we have counter = 0, segmentPtr = ptr to traverse current segment
-            while counter < k - 1:
+            # now, we have counter = 0, curPtr = ptr to traverse current segment
+            numOfReverse = 0
+            while numOfReverse < k - 1:
                 # Storing
-                next = segmentPtr.next
+                nextPtr = curPtr.next
                 # Swapping
-                segmentPtr.next = next.next
-                next.next = leftSegment.next
-                leftSegment.next = next
+                curPtr.next = nextPtr.next
+                nextPtr.next = leftSegment.next
+                leftSegment.next = nextPtr
                 # Iteration update
-                counter += 1
+                numOfReverse += 1
             # Finish reversing -> current segment becomes left segment
-            leftSegment = segmentPtr
+            leftSegment = curPtr
         return dummy.next
