@@ -1,0 +1,5 @@
+1. Internet is like a giant graphs:
+  - Each note is a router
+  - Dijkstra only works in small scale
+    -> needs a better method to calculate shortest path
+    -> Bellman-Ford algorithm
